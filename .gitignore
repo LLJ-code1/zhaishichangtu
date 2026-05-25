@@ -1,0 +1,9 @@
+.DS_Store
+__pycache__/
+.pytest_cache/
+
+# Temporary visual checks generated during local iteration
+tmp_*.png
+
+# Local Photoshop layer inspection output. Regenerate with scripts/list_psd_layers.jsx.
+psd_layers.tsv
