@@ -19,6 +19,8 @@
 
 详细问题见 [docs/待解决.md](docs/待解决.md) 和 [docs/问题记录.md](docs/问题记录.md)。
 
+新的基础长图方案见 [docs/superpowers/specs/2026-05-25-photoshop-basic-long-image-design.md](docs/superpowers/specs/2026-05-25-photoshop-basic-long-image-design.md)。
+
 ## 目录说明
 
 ```text
@@ -81,4 +83,3 @@
 3. 把图标、标题、正文、图表作为独立组件，增加安全边距和碰撞检测。
 4. 对三版首段文案做统一字数约束，避免某一版撑开或留白。
 5. 再决定 PSD 是否需要完全可编辑。如果需要，应重建 PSD 文本层和图表层，而不是只贴顶层成图。
-
