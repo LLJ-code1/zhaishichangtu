@@ -1,6 +1,6 @@
-var originalPsdPath = "/Users/a123/Downloads/债市周观察/债市周观察/债市周报.psd";
-var finalPngPath = "/Users/a123/Downloads/债市周观察/债市周观察/长图/20260521新版/金葵花债市周观察20260521_原版.png";
-var outputPsdPath = "/Users/a123/Downloads/债市周观察/债市周观察/长图/20260521新版/金葵花债市周观察20260521_原版.psd";
+var originalPsdPath = "/Users/a123/Downloads/债市周观察/债市周观察/weeks/2026-05-25_2026-05-29/inputs/psd/债市周报.psd";
+var finalPngPath = "/Users/a123/Downloads/债市周观察/债市周观察/weeks/2026-05-25_2026-05-29/outputs/20260521新版/金葵花债市周观察20260521_原版.png";
+var outputPsdPath = "/Users/a123/Downloads/债市周观察/债市周观察/weeks/2026-05-25_2026-05-29/outputs/20260521新版/金葵花债市周观察20260521_原版.psd";
 
 app.displayDialogs = DialogModes.NO;
 var oldUnits = app.preferences.rulerUnits;

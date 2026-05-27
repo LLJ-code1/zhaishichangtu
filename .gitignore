@@ -7,3 +7,9 @@ tmp_*.png
 
 # Local Photoshop layer inspection output. Regenerate with scripts/list_psd_layers.jsx.
 psd_layers.tsv
+
+# Generated local work assets and failed/intermediate visual experiments.
+work/
+长图/基础长图v0/
+weeks/*/work/
+weeks/*/outputs/basic_v0/

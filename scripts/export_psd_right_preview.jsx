@@ -1,4 +1,4 @@
-var targetPsdPath = "/Users/a123/Downloads/债市周观察/债市周观察/长图/20260521新版/金葵花债市周观察20260521_原版.psd";
+var targetPsdPath = "/Users/a123/Downloads/债市周观察/债市周观察/weeks/2026-05-25_2026-05-29/outputs/20260521新版/金葵花债市周观察20260521_原版.psd";
 var previewPath = "/private/tmp/债市周观察_checks/psd_right_preview_photoshop.png";
 
 app.displayDialogs = DialogModes.NO;

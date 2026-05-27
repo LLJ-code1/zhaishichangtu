@@ -10,11 +10,11 @@ from pathlib import Path
 from PIL import Image, ImageDraw, ImageFont
 from docx import Document
 
+from project_paths import EDITED_DOCX, OUTPUT_DIR, REFERENCE_LONG_IMAGE_DIR
 
-ROOT = Path("/Users/a123/Downloads/债市周观察/债市周观察")
-DOCX = ROOT / "金葵花债市周度复盘20260521 - 修改版本.docx"
-BASE_DIR = ROOT / "长图"
-OUT_DIR = BASE_DIR / "20260521新版"
+DOCX = EDITED_DOCX
+BASE_DIR = REFERENCE_LONG_IMAGE_DIR
+OUT_DIR = OUTPUT_DIR / "20260521新版"
 
 FONT_HEITI = "/System/Library/Fonts/STHeiti Medium.ttc"
 FONT_SONG = "/System/Library/Fonts/Supplemental/Songti.ttc"

@@ -1,4 +1,4 @@
-var psdPath = "/Users/a123/Downloads/债市周观察/债市周观察/债市周报.psd";
+var psdPath = "/Users/a123/Downloads/债市周观察/债市周观察/weeks/2026-05-25_2026-05-29/inputs/psd/债市周报.psd";
 var outPath = "/Users/a123/Downloads/债市周观察/债市周观察/psd_layers.tsv";
 
 app.displayDialogs = DialogModes.NO;

@@ -1,0 +1,51 @@
+{
+  "schema_version": "1.0",
+  "description": "债市周观察 Word 到 PSD 的结构化内容字段。PSD 脚本只读取这些字段，不直接理解 Word 段落。",
+  "required_fields": {
+    "meta": {
+      "variant": "原版 / 固收+ / 债市",
+      "source_docx": "来源 Word 文件路径",
+      "date": "长图头部日期，如 2026-5-21",
+      "week_range": "周报区间，如 5月15日至5月21日"
+    },
+    "layout": {
+      "width": 1125,
+      "adaptive_height": true,
+      "height_policy": "按正文实际高度调整卡片和后续区块位置，不用统一首段字数"
+    },
+    "fields": {
+      "title": "金葵花债市周观察",
+      "subtitle": "收益率整体下行",
+      "top_title": "国债收益率整体下行",
+      "top_intro": "首屏投资建议正文，三版核心差异字段",
+      "market_section_title": "债市表现",
+      "market_sentence": "债市表现开头一句",
+      "yield_trend_title": "收益率下行",
+      "yield_chart_caption": "国债收益率曲线图标题",
+      "yield_table_caption": "国债收益率表标题",
+      "analysis_section_title": "债市分析",
+      "risk_preference": "市场风险偏好正文",
+      "funding": "资金面正文",
+      "fund_chart_title": "资金利率图标题",
+      "outlook_section_title": "后市展望",
+      "outlook": "后市展望正文",
+      "strategy_section_title": "配置策略",
+      "strategy": "固定配置策略正文",
+      "source": "数据来源",
+      "risk_warning": "风险提示"
+    },
+    "assets": {
+      "yield_table": "表格二维数组",
+      "yield_chart_xml": "Word 内国债收益率曲线 chart xml",
+      "fund_chart_xml": "Word 内资金利率曲线 chart xml"
+    },
+    "rich_text": {
+      "top_intro": "按 red_rules 切分后的黑/红片段",
+      "market_sentence": "按 red_rules 切分后的黑/红片段",
+      "risk_preference": "按 red_rules 切分后的黑/红片段",
+      "funding": "按 red_rules 切分后的黑/红片段",
+      "outlook": "按 red_rules 切分后的黑/红片段",
+      "strategy": "按 red_rules 切分后的黑/红片段"
+    }
+  }
+}
