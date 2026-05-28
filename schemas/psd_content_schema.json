@@ -37,7 +37,8 @@
     "assets": {
       "yield_table": "表格二维数组",
       "yield_chart_xml": "Word 内国债收益率曲线 chart xml",
-      "fund_chart_xml": "Word 内资金利率曲线 chart xml"
+      "fund_chart_xml": "Word 内资金利率曲线 chart xml",
+      "chart_external_workbooks": "Word 图表 rels 中记录的外部 Excel/OLE 来源；用于判断是否可直接从原 Excel 导出高保真图表"
     },
     "rich_text": {
       "top_intro": "按 red_rules 切分后的黑/红片段",

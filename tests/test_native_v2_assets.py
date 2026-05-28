@@ -32,6 +32,12 @@ class NativeV2AssetTests(unittest.TestCase):
             self.assertEqual(alpha.getextrema()[0], 0, path)
             self.assertEqual(image.getpixel((0, 0))[3], 0, path)
 
+    def test_yield_chart_asset_uses_psd_slot_aspect_ratio(self) -> None:
+        path = ROOT / "weeks/2026-05-25_2026-05-29/work/basic_v0/assets/yield_chart.png"
+
+        with Image.open(path) as image:
+            self.assertEqual(image.size, (880, 600))
+
     def test_top_intro_rich_text_asset_is_transparent_and_has_red_text(self) -> None:
         path = ROOT / "weeks/2026-05-25_2026-05-29/work/native_v2/assets/top_intro.png"
         image = Image.open(path).convert("RGBA")

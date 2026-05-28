@@ -229,11 +229,36 @@ def save_table(path: Path, rows):
     im.save(path)
 
 
-def save_line_chart(path: Path, series, size, y_min, y_max, ticks, colors, legend_cols=3):
+def draw_rotated_text(image: Image.Image, xy, text: str, ft, fill, angle: int = 45) -> None:
+    bbox = ft.getbbox(text)
+    text_w = bbox[2] - bbox[0]
+    text_h = bbox[3] - bbox[1]
+    label = Image.new("RGBA", (text_w + 8, text_h + 8), (0, 0, 0, 0))
+    label_draw = ImageDraw.Draw(label)
+    label_draw.text((4 - bbox[0], 4 - bbox[1]), text, font=ft, fill=fill)
+    rotated = label.rotate(angle, expand=True, resample=Image.Resampling.BICUBIC)
+    x, y = xy
+    image.alpha_composite(rotated, (round(x - rotated.width / 2), round(y)))
+
+
+def save_line_chart(
+    path: Path,
+    series,
+    size,
+    y_min,
+    y_max,
+    ticks,
+    colors,
+    legend_cols=3,
+    show_date_labels=False,
+):
     w, h = size
     im = Image.new("RGBA", size, (0, 0, 0, 0))
     draw = ImageDraw.Draw(im)
-    left, top, right, bottom = 70, 24, w - 35, h - 86
+    left = 88 if show_date_labels else 70
+    top = 32 if show_date_labels else 24
+    right = w - 35
+    bottom = h - 164 if show_date_labels else h - 86
     draw.line((left, top, left, bottom), fill=(190, 190, 190), width=2)
     draw.line((left, bottom, right, bottom), fill=(190, 190, 190), width=2)
     for tick in ticks:
@@ -247,6 +272,8 @@ def save_line_chart(path: Path, series, size, y_min, y_max, ticks, colors, legen
         d = all_dates[idx]
         xx = left + (d - start).days / span * (right - left)
         draw.line((xx, bottom, xx, bottom + 8), fill=(205, 205, 205), width=2)
+        if show_date_labels:
+            draw_rotated_text(im, (xx, bottom + 14), d.strftime("%Y-%m-%d"), font(15), GREY, 45)
     for idx, (name, pairs) in enumerate(series):
         pts = []
         for d, val in pairs:
@@ -255,11 +282,11 @@ def save_line_chart(path: Path, series, size, y_min, y_max, ticks, colors, legen
             pts.append((xx, yy))
         if len(pts) > 1:
             draw.line(pts, fill=colors[idx % len(colors)], width=4, joint="curve")
-    legend_y = h - 56
+    legend_y = h - 72 if show_date_labels else h - 56
     col_w = w // legend_cols
     for idx, (name, _) in enumerate(series):
         lx = 45 + (idx % legend_cols) * col_w
-        ly = legend_y + (idx // legend_cols) * 28
+        ly = legend_y + (idx // legend_cols) * 30
         label = name.replace("中债国债到期收益率:", "中债国债到期收益率:")
         label = label.replace("存款类机构质押式回购加权利率:", "回购加权利率:")
         draw.line((lx, ly + 10, lx + 44, ly + 10), fill=colors[idx % len(colors)], width=4)
@@ -419,12 +446,13 @@ def main():
     save_line_chart(
         ASSET_DIR / "yield_chart.png",
         yield_series,
-        (880, 460),
+        (880, 600),
         0.80,
-        2.80,
-        [0.80, 1.30, 1.80, 2.30, 2.80],
+        2.60,
+        [0.80, 1.00, 1.20, 1.40, 1.60, 1.80, 2.00, 2.20, 2.40, 2.60],
         [(86, 160, 220), (232, 122, 55), (165, 169, 170), (245, 180, 0), (68, 112, 196), (105, 168, 80)],
-        legend_cols=3,
+        legend_cols=2,
+        show_date_labels=True,
     )
     save_line_chart(
         ASSET_DIR / "fund_chart.png",

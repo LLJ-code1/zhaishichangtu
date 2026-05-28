@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import re
+import xml.etree.ElementTree as ET
 from pathlib import Path
 from zipfile import ZipFile
 
@@ -101,6 +102,43 @@ def chart_xml_names(docx_path: Path) -> list[str]:
     )
 
 
+def chart_rels_name(chart_xml_name: str) -> str:
+    chart_file = Path(chart_xml_name).name
+    return f"word/charts/_rels/{chart_file}.rels"
+
+
+def external_chart_workbooks(docx_path: Path) -> list[dict]:
+    rel_ns = {"rel": "http://schemas.openxmlformats.org/package/2006/relationships"}
+    workbooks: list[dict] = []
+
+    with ZipFile(docx_path) as zf:
+        names = set(zf.namelist())
+        for chart_xml in chart_xml_names(docx_path):
+            rels_name = chart_rels_name(chart_xml)
+            if rels_name not in names:
+                continue
+            root = ET.fromstring(zf.read(rels_name))
+            for rel in root.findall("rel:Relationship", rel_ns):
+                target = rel.attrib.get("Target", "")
+                rel_type = rel.attrib.get("Type", "")
+                target_mode = rel.attrib.get("TargetMode", "")
+                if target_mode != "External":
+                    continue
+                if not (target.lower().endswith(".xlsx") or "oleObject" in rel_type):
+                    continue
+                workbooks.append(
+                    {
+                        "chart_xml": chart_xml,
+                        "rels_xml": rels_name,
+                        "relationship_id": rel.attrib.get("Id", ""),
+                        "relationship_type": rel_type,
+                        "target": target,
+                        "target_mode": target_mode,
+                    }
+                )
+    return workbooks
+
+
 def extract_date(source: str) -> str:
     match = re.search(r"(\d{4})年(\d{1,2})月(\d{1,2})日", source)
     if not match:
@@ -192,6 +230,7 @@ def build_variant(variant: str, docx_path: Path, rules: dict) -> dict:
     }
 
     charts = chart_xml_names(docx_path)
+    chart_workbooks = external_chart_workbooks(docx_path)
     return {
         "schema_version": "1.0",
         "meta": {
@@ -211,6 +250,7 @@ def build_variant(variant: str, docx_path: Path, rules: dict) -> dict:
             "yield_table": table_rows(doc),
             "yield_chart_xml": charts[0] if len(charts) > 0 else "",
             "fund_chart_xml": charts[1] if len(charts) > 1 else "",
+            "chart_external_workbooks": chart_workbooks,
         },
         "normalizations_applied": {
             "top_intro": top_normalizations,

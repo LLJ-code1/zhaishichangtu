@@ -1,0 +1,187 @@
+{
+  "schema_version": "1.0",
+  "description": "PSD semantic layer map for native_v3. Scripts should target these semantic keys instead of ad hoc text-prefix searches.",
+  "canvas": {
+    "x0": 3042,
+    "width": 1125,
+    "height": 7037
+  },
+  "content_rules": {
+    "top_intro_cut_after": "5月LPR利率公布，维持不变。",
+    "risk_preference_override": "1、受到美伊停战协议传出进展的消息影响，油价回落。\n2、证指数高位回落后企稳，收于4100点上方。主力资金在高位表现出一定的兑现意愿，全周净流出约1522亿元。"
+  },
+  "layout_adjustments": {
+    "output_height": 6893,
+    "shift_after_y": 1958,
+    "shift_y": -144,
+    "shift_when": "bottom_after_boundary",
+    "max_shift_layer_height": 2600,
+    "min_shift_layer_top": 1200,
+    "targeted_offsets": [
+      { "layer_name": "版块1标题卡", "top_min": 2900, "top_max": 3050, "dy": 287 },
+      { "layer_name": "图层 168", "top_min": 3260, "top_max": 3295, "dy": 287 },
+      { "layer_name": "版块1标题卡", "top_min": 4900, "top_max": 5010, "dy": 125 },
+      { "layer_name": "版块1标题卡", "top_min": 5450, "top_max": 5560, "dy": 132 }
+    ],
+    "hero_background": {
+      "layer_name": "版块1白底板",
+      "top_min": 560,
+      "top_max": 590,
+      "target_bottom": 1811
+    },
+    "dynamic_gaps": {
+      "enabled": true,
+      "footer_bottom_gap": 70,
+      "sections": [
+        {
+          "name": "hero",
+          "content_keys": ["top_intro"],
+          "background": { "layer_name": "版块1白底板", "top_min": 560, "top_max": 590, "bottom_gap": 61 }
+        },
+        {
+          "name": "market",
+          "image_keys": ["yield_chart"],
+          "inner_layers": [
+            { "layer_name": "圆角矩形 24 拷贝 2", "top_min": 2100, "top_max": 2150, "bottom_gap": 89 }
+          ],
+          "background": { "layer_name": "版块1白底板", "top_min": 1980, "top_max": 2030, "bottom_gap": 138 }
+        },
+        {
+          "name": "analysis",
+          "content_keys": ["risk_preference"],
+          "inner_layers": [
+            { "layer_name": "圆角矩形 24 拷贝 2", "top_min": 3550, "top_max": 3620, "bottom_gap": 143 }
+          ],
+          "background": { "layer_name": "版块1白底板", "top_min": 3400, "top_max": 3450, "bottom_gap": 184 }
+        },
+        {
+          "name": "outlook",
+          "content_keys": ["outlook"],
+          "inner_layers": [
+            { "layer_name": "矩形 546 拷贝 5", "top_min": 5300, "top_max": 5350, "bottom_gap": 74 }
+          ],
+          "background": { "layer_name": "版块1白底板", "top_min": 5200, "top_max": 5270, "bottom_gap": 100 }
+        },
+        {
+          "name": "strategy",
+          "content_keys": ["strategy"],
+          "inner_layers": [
+            { "layer_name": "矩形 546 拷贝 5", "top_min": 5850, "top_max": 5900, "bottom_gap": 79 }
+          ],
+          "background": { "layer_name": "版块1白底板", "top_min": 5750, "top_max": 5820, "bottom_gap": 101 }
+        }
+      ]
+    }
+  },
+  "text_layers": {
+    "date": {
+      "match": {
+        "type": "exact",
+        "text": "2026-5-18"
+      },
+      "strategy": "replace_text"
+    },
+    "top_title": {
+      "match": {
+        "type": "exact",
+        "text": "国债收益率窄幅震荡，曲线走平"
+      },
+      "strategy": "replace_text"
+    },
+    "top_intro": {
+      "match": {
+        "type": "prefix",
+        "text": "上周债券收益率窄幅震荡"
+      },
+      "strategy": "paragraph_rich_text",
+      "box": {
+        "width": 901,
+        "height": 624
+      }
+    },
+    "market_sentence": {
+      "match": {
+        "type": "prefix",
+        "text": "5月8日-5月14日"
+      },
+      "strategy": "paragraph_rich_text",
+      "box": {
+        "width": 915,
+        "height": 52
+      }
+    },
+    "funding": {
+      "match": {
+        "type": "prefix",
+        "text": "1、央行在公开市场操作上净回笼500亿元"
+      },
+      "strategy": "paragraph_rich_text",
+      "box": {
+        "width": 576,
+        "height": 292
+      }
+    },
+    "fund_chart_title": {
+      "match": {
+        "type": "prefix",
+        "text": "DR001/DR007上周情况"
+      },
+      "strategy": "paragraph_rich_text",
+      "box": {
+        "width": 445,
+        "height": 87
+      }
+    },
+    "risk_preference": {
+      "match": {
+        "type": "prefix",
+        "text": "1、特朗普访华落地"
+      },
+      "strategy": "paragraph_rich_text",
+      "box": {
+        "width": 587,
+        "height": 292
+      }
+    },
+    "outlook": {
+      "match": {
+        "type": "prefix",
+        "text": "展望后市，重点关注特朗普访华进展"
+      },
+      "strategy": "paragraph_rich_text",
+      "box": {
+        "width": 889,
+        "height": 292
+      }
+    },
+    "strategy": {
+      "match": {
+        "type": "contains",
+        "text": "境内债券市场"
+      },
+      "strategy": "paragraph_rich_text",
+      "box": {
+        "width": 899,
+        "height": 355
+      }
+    },
+    "source_risk": {
+      "match": {
+        "type": "prefix",
+        "text": "数据来源：wind"
+      },
+      "strategy": "replace_text"
+    }
+  },
+  "image_layers": {
+    "table": {
+      "target_layer_name": "表1"
+    },
+    "yield_chart": {
+      "target_layer_name": "图片1"
+    },
+    "fund_chart": {
+      "target_layer_name": "图片2"
+    }
+  }
+}

@@ -27,16 +27,18 @@ class NativeV3EditableTextTests(unittest.TestCase):
         self.assertIn("native_text_blocks", data)
         self.assertIn("top_intro", data["native_text_blocks"])
 
-    def test_text_runs_are_editable_source_han_sans_layers_with_red_and_black(self) -> None:
+    def test_text_blocks_are_single_paragraph_layers_with_style_ranges(self) -> None:
         path = ROOT / "weeks/2026-05-25_2026-05-29/work/native_v3/content.json"
         data = json.loads(path.read_text(encoding="utf-8"))
         top_intro = data["native_text_blocks"]["top_intro"]
-        colors = {tuple(run["color"]) for run in top_intro["runs"]}
+        colors = {tuple(style["color"]) for style in top_intro["style_ranges"]}
         self.assertIn((232, 31, 31), colors)
         self.assertIn((24, 22, 20), colors)
-        self.assertTrue(all(run["kind"] == "text" for run in top_intro["runs"]))
-        self.assertTrue(all(run["font"].startswith("SourceHanSansCN-") for run in top_intro["runs"]))
-        self.assertTrue(all("image" not in run for run in top_intro["runs"]))
+        self.assertEqual(top_intro["render_strategy"], "paragraph_text_style_ranges")
+        self.assertNotIn("runs", top_intro)
+        self.assertTrue(top_intro["font"].startswith("SourceHanSansCN-"))
+        self.assertGreater(len(top_intro["text"]), 0)
+        self.assertGreater(len(top_intro["style_ranges"]), 1)
 
     def test_key_blocks_have_no_overflow_flag(self) -> None:
         path = ROOT / "weeks/2026-05-25_2026-05-29/work/native_v3/content.json"
@@ -48,7 +50,7 @@ class NativeV3EditableTextTests(unittest.TestCase):
     def test_strategy_preserves_numbering_and_plus_sign(self) -> None:
         path = ROOT / "weeks/2026-05-25_2026-05-29/work/native_v3/content.json"
         data = json.loads(path.read_text(encoding="utf-8"))
-        text = "".join(run["text"] for run in data["native_text_blocks"]["strategy"]["runs"])
+        text = data["native_text_blocks"]["strategy"]["text"]
         self.assertIn("1.", text)
         self.assertIn("2.", text)
         self.assertIn("固收+", text)
