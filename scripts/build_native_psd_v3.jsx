@@ -7,7 +7,7 @@
 #target photoshop
 
 (function () {
-    var JSON_PATH = "/Users/a123/Downloads/债市周观察/债市周观察/weeks/2026-05-25_2026-05-29/work/native_v3/content.json";
+    var JSON_PATH = "/Users/a123/Downloads/债市周观察/债市周观察/weeks/2026-06-01_2026-06-05/work/native_v3/content.json";
 
     function readText(path) {
         var file = new File(path);
@@ -381,11 +381,24 @@
         }
     }
 
-    function shiftLayersTopAtOrAfter(container, x0, boundaryY, shiftY, processedLayerIds) {
+    function shouldShiftLayerAtOrNearBoundary(box, x0, boundaryY, overlapTolerance) {
+        if (box.right <= x0) {
+            return false;
+        }
+        if (box.top >= boundaryY) {
+            return true;
+        }
+        return overlapTolerance > 0 &&
+            box.bottom > boundaryY &&
+            box.top >= boundaryY - overlapTolerance;
+    }
+
+    function shiftLayersTopAtOrAfter(container, x0, boundaryY, shiftY, processedLayerIds, overlapTolerance) {
         if (Math.round(shiftY) === 0) {
             return;
         }
         processedLayerIds = processedLayerIds || {};
+        overlapTolerance = overlapTolerance || 0;
         for (var i = container.layers.length - 1; i >= 0; i--) {
             var layer = container.layers[i];
             if (!layer.visible) {
@@ -399,7 +412,7 @@
                 box = null;
             }
 
-            if (box !== null && box.right > x0 && box.top >= boundaryY) {
+            if (box !== null && shouldShiftLayerAtOrNearBoundary(box, x0, boundaryY, overlapTolerance)) {
                 if (isLayerProcessed(layer, processedLayerIds)) {
                     continue;
                 }
@@ -409,7 +422,7 @@
             }
 
             if (layer.typename === "LayerSet") {
-                shiftLayersTopAtOrAfter(layer, x0, boundaryY, shiftY, processedLayerIds);
+                shiftLayersTopAtOrAfter(layer, x0, boundaryY, shiftY, processedLayerIds, overlapTolerance);
             }
         }
     }
@@ -508,6 +521,27 @@
         return { layer: layer, oldBottom: oldBottom };
     }
 
+    function applyTitleLayerHeights(doc, x0, specs) {
+        if (!specs) {
+            return;
+        }
+        for (var i = 0; i < specs.length; i++) {
+            var spec = specs[i];
+            var layer = findArtLayerByNameAndVerticalRange(
+                doc,
+                spec.layer_name,
+                spec.top_min,
+                spec.top_max,
+                x0
+            );
+            if (layer === null) {
+                throw new Error("Cannot find title layer for height adjustment: " + spec.layer_name + " / " + spec.top_min);
+            }
+            var box = boundsOf(layer);
+            resizeLayerToBottom(layer, box.top + spec.target_height);
+        }
+    }
+
     function applyDynamicGaps(doc, data, nativeGroups, imageLayers, profile) {
         if (!profile || !profile.enabled) {
             return false;
@@ -535,7 +569,14 @@
             var backgroundBox = boundsOf(resizedBackground.layer);
             var oldBoundary = resizedBackground.oldBottom;
             var sectionShift = backgroundBox.bottom - oldBoundary;
-            shiftLayersTopAtOrAfter(doc, data.x0, oldBoundary, sectionShift);
+            shiftLayersTopAtOrAfter(
+                doc,
+                data.x0,
+                oldBoundary,
+                sectionShift,
+                {},
+                profile.shift_overlap_tolerance || 0
+            );
             cumulativeShift += sectionShift;
         }
 
@@ -543,6 +584,7 @@
         if (sourceLayer !== null) {
             data.height = Math.round(boundsOf(sourceLayer).bottom + profile.footer_bottom_gap);
         }
+        applyTitleLayerHeights(doc, data.x0, profile.title_layer_heights);
         return true;
     }
 

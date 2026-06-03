@@ -1,5 +1,5 @@
-var psdPath = "/Users/a123/Downloads/债市周观察/债市周观察/weeks/2026-05-25_2026-05-29/inputs/psd/债市周报.psd";
-var outPath = "/Users/a123/Downloads/债市周观察/债市周观察/psd_layers.tsv";
+var psdPath = "/Users/a123/Downloads/债市周观察/债市周观察/weeks/2026-06-01_2026-06-05/outputs/native_v3/金葵花债市周观察20260528_原版_原生文本v3.psd";
+var outPath = "/Users/a123/Downloads/债市周观察/债市周观察/weeks/2026-06-01_2026-06-05/work/native_v3/output_layers.tsv";
 
 app.displayDialogs = DialogModes.NO;
 var doc = app.open(new File(psdPath));

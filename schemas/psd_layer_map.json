@@ -7,8 +7,7 @@
     "height": 7037
   },
   "content_rules": {
-    "top_intro_cut_after": "5月LPR利率公布，维持不变。",
-    "risk_preference_override": "1、受到美伊停战协议传出进展的消息影响，油价回落。\n2、证指数高位回落后企稳，收于4100点上方。主力资金在高位表现出一定的兑现意愿，全周净流出约1522亿元。"
+    "top_intro_cut_after": "5月中期借贷便利投放6000亿，前值4000亿。"
   },
   "layout_adjustments": {
     "output_height": 6893,
@@ -31,7 +30,12 @@
     },
     "dynamic_gaps": {
       "enabled": true,
+      "shift_overlap_tolerance": 160,
       "footer_bottom_gap": 70,
+      "title_layer_heights": [
+        { "layer_name": "版块1标题卡", "top_min": 4880, "top_max": 4935, "target_height": 86 },
+        { "layer_name": "版块1标题卡", "top_min": 5340, "top_max": 5400, "target_height": 86 }
+      ],
       "sections": [
         {
           "name": "hero",

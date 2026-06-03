@@ -5,8 +5,8 @@
 #target photoshop
 
 (function () {
-    var contentJsonPath = "/Users/a123/Downloads/债市周观察/债市周观察/weeks/2026-05-25_2026-05-29/work/native_v3/content.json";
-    var outPath = "/Users/a123/Downloads/债市周观察/债市周观察/weeks/2026-05-25_2026-05-29/work/native_v3/text_layers.tsv";
+    var contentJsonPath = "/Users/a123/Downloads/债市周观察/债市周观察/weeks/2026-06-01_2026-06-05/work/native_v3/content.json";
+    var outPath = "/Users/a123/Downloads/债市周观察/债市周观察/weeks/2026-06-01_2026-06-05/work/native_v3/text_layers.tsv";
 
     function readText(path) {
         var file = new File(path);

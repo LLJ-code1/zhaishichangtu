@@ -26,7 +26,7 @@ class NativeV3WorkflowContractTests(unittest.TestCase):
             check=True,
         )
 
-        path = ROOT / "weeks/2026-05-25_2026-05-29/work/native_v3/content.json"
+        path = ROOT / "weeks/2026-06-01_2026-06-05/work/native_v3/content.json"
         data = json.loads(path.read_text(encoding="utf-8"))
 
         self.assertEqual(data["variant"], "固收+")
@@ -74,7 +74,7 @@ class NativeV3WorkflowContractTests(unittest.TestCase):
 
         layer_map = json.loads((ROOT / "schemas/psd_layer_map.json").read_text(encoding="utf-8"))
         generated = json.loads(
-            (ROOT / "weeks/2026-05-25_2026-05-29/work/native_v3/content.json").read_text(
+            (ROOT / "weeks/2026-06-01_2026-06-05/work/native_v3/content.json").read_text(
                 encoding="utf-8"
             )
         )
@@ -93,17 +93,17 @@ class NativeV3WorkflowContractTests(unittest.TestCase):
         )
 
         generated = json.loads(
-            (ROOT / "weeks/2026-05-25_2026-05-29/work/native_v3/content.json").read_text(
+            (ROOT / "weeks/2026-06-01_2026-06-05/work/native_v3/content.json").read_text(
                 encoding="utf-8"
             )
         )
         top_intro_text = generated["native_text_blocks"]["top_intro"]["text"]
 
-        self.assertIn("5月LPR利率公布，维持不变。", top_intro_text)
+        self.assertIn("央行净投放充裕", top_intro_text)
         self.assertNotIn("权益方面", top_intro_text)
         risk_text = generated["native_text_blocks"]["risk_preference"]["text"]
-        self.assertIn("受到美伊停战协议传出进展", risk_text)
-        self.assertNotIn("黄金收于4500上方", risk_text)
+        self.assertIn("科技概念短线回调", risk_text)
+        self.assertNotIn("美伊停战协议", risk_text)
         self.assertEqual(generated["height"], 6893)
         self.assertEqual(generated["layout_adjustments"]["shift_y"], -144)
         self.assertEqual(generated["layout_adjustments"]["shift_after_y"], 1958)
@@ -125,7 +125,7 @@ class NativeV3WorkflowContractTests(unittest.TestCase):
         )
 
         generated = json.loads(
-            (ROOT / "weeks/2026-05-25_2026-05-29/work/native_v3/content.json").read_text(
+            (ROOT / "weeks/2026-06-01_2026-06-05/work/native_v3/content.json").read_text(
                 encoding="utf-8"
             )
         )
@@ -166,6 +166,11 @@ class NativeV3WorkflowContractTests(unittest.TestCase):
         script = (ROOT / "scripts/build_native_psd_v3.jsx").read_text(encoding="utf-8")
 
         self.assertTrue(dynamic["enabled"])
+        self.assertGreaterEqual(dynamic["shift_overlap_tolerance"], 100)
+        self.assertEqual(
+            [item["target_height"] for item in dynamic["title_layer_heights"]],
+            [86, 86],
+        )
         self.assertEqual(
             [section["name"] for section in dynamic["sections"]],
             ["hero", "market", "analysis", "outlook", "strategy"],
@@ -174,6 +179,9 @@ class NativeV3WorkflowContractTests(unittest.TestCase):
         self.assertEqual(dynamic["sections"][2]["background"]["bottom_gap"], 184)
         self.assertIn("function applyDynamicGaps", script)
         self.assertIn("shiftLayersTopAtOrAfter", script)
+        self.assertIn("shift_overlap_tolerance", script)
+        self.assertIn("applyTitleLayerHeights", script)
+        self.assertIn("box.bottom > boundaryY", script)
         self.assertIn("markLinkedLayerSet", script)
         self.assertIn("processedLayerIds", script)
 

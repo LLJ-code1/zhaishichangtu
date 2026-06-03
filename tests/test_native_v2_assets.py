@@ -24,8 +24,8 @@ class NativeV2AssetTests(unittest.TestCase):
 
     def test_chart_assets_have_transparent_background(self) -> None:
         for path in (
-            ROOT / "weeks/2026-05-25_2026-05-29/work/basic_v0/assets/yield_chart.png",
-            ROOT / "weeks/2026-05-25_2026-05-29/work/basic_v0/assets/fund_chart.png",
+            ROOT / "weeks/2026-06-01_2026-06-05/work/basic_v0/assets/yield_chart.png",
+            ROOT / "weeks/2026-06-01_2026-06-05/work/basic_v0/assets/fund_chart.png",
         ):
             image = Image.open(path).convert("RGBA")
             alpha = image.getchannel("A")
@@ -33,13 +33,13 @@ class NativeV2AssetTests(unittest.TestCase):
             self.assertEqual(image.getpixel((0, 0))[3], 0, path)
 
     def test_yield_chart_asset_uses_psd_slot_aspect_ratio(self) -> None:
-        path = ROOT / "weeks/2026-05-25_2026-05-29/work/basic_v0/assets/yield_chart.png"
+        path = ROOT / "weeks/2026-06-01_2026-06-05/work/basic_v0/assets/yield_chart.png"
 
         with Image.open(path) as image:
             self.assertEqual(image.size, (880, 600))
 
     def test_top_intro_rich_text_asset_is_transparent_and_has_red_text(self) -> None:
-        path = ROOT / "weeks/2026-05-25_2026-05-29/work/native_v2/assets/top_intro.png"
+        path = ROOT / "weeks/2026-06-01_2026-06-05/work/native_v2/assets/top_intro.png"
         image = Image.open(path).convert("RGBA")
         alpha = image.getchannel("A")
         self.assertEqual(alpha.getextrema()[0], 0)
@@ -51,7 +51,7 @@ class NativeV2AssetTests(unittest.TestCase):
         self.assertGreater(red_pixels, 50)
 
     def test_native_v2_content_points_to_v2_outputs_and_rich_assets(self) -> None:
-        path = ROOT / "weeks/2026-05-25_2026-05-29/work/native_v2/content.json"
+        path = ROOT / "weeks/2026-06-01_2026-06-05/work/native_v2/content.json"
         data = json.loads(path.read_text(encoding="utf-8"))
         self.assertIn("/outputs/native_v2/", data["output_png"])
         self.assertIn("top_intro", data["rich_text_assets"])

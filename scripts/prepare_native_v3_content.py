@@ -124,6 +124,14 @@ def replace_source_date(source: str, source_date: str | None) -> str:
     return re.sub(r"截至\d{4}年\d{1,2}月\d{1,2}日", f"截至{source_date}", source)
 
 
+def date_slug(meta_date: str) -> str:
+    match = re.match(r"(\d{4})-(\d{1,2})-(\d{1,2})$", meta_date)
+    if not match:
+        return re.sub(r"\D", "", meta_date)
+    year, month, day = match.groups()
+    return f"{year}{int(month):02d}{int(day):02d}"
+
+
 def numbered_funding(text: str) -> str:
     first = "央行在公开市场操作上净投放1490亿元。"
     if text.startswith(first):
@@ -338,7 +346,7 @@ def main(argv: list[str] | None = None) -> None:
     meta = content["meta"]
     canvas = layer_map["canvas"]
     layout_adjustments = layer_map.get("layout_adjustments", {})
-    output_stem = f"金葵花债市周观察20260521_{args.variant}_原生文本v3"
+    output_stem = f"金葵花债市周观察{date_slug(meta['date'])}_{args.variant}_原生文本v3"
     display_date = args.display_date or meta["date"]
     source = replace_source_date(fields["source"], args.source_date)
 

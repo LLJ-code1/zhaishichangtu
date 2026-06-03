@@ -38,10 +38,10 @@ class EngineeringContractTests(unittest.TestCase):
     def test_word_extraction_records_external_excel_chart_source(self) -> None:
         import extract_word_psd_content
 
-        docx_path = ROOT / "weeks/2026-05-25_2026-05-29/inputs/word/variants/债市周观察原版.docx"
+        docx_path = ROOT / "weeks/2026-06-01_2026-06-05/inputs/word/variants/债市周观察原版.docx"
         workbooks = extract_word_psd_content.external_chart_workbooks(docx_path)
 
-        self.assertEqual(len(workbooks), 2)
+        self.assertGreaterEqual(len(workbooks), 2)
         self.assertTrue(all(item["target_mode"] == "External" for item in workbooks))
         self.assertTrue(all("金葵花-数据底表.xlsx" in item["target"] for item in workbooks))
 

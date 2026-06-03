@@ -4,7 +4,7 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
-CURRENT_WEEK = "2026-05-25_2026-05-29"
+CURRENT_WEEK = "2026-06-01_2026-06-05"
 WEEK_DIR = ROOT / "weeks" / CURRENT_WEEK
 
 INPUT_DIR = WEEK_DIR / "inputs"
@@ -18,6 +18,6 @@ REFERENCE_LONG_IMAGE_DIR = INPUT_DIR / "reference_long_images"
 OUTPUT_DIR = WEEK_DIR / "outputs"
 WORK_DIR = WEEK_DIR / "work"
 
-RAW_DOCX = RAW_WORD_DIR / "金葵花债市周度复盘20260521.docx"
-EDITED_DOCX = EDITED_WORD_DIR / "金葵花债市周度复盘20260521 - 修改版本.docx"
+RAW_DOCX = RAW_WORD_DIR / "金葵花债市周度复盘20260528.docx"
+EDITED_DOCX = EDITED_WORD_DIR / "金葵花债市周度复盘20260528 - 修改版本.docx"
 PSD_TEMPLATE = PSD_DIR / "债市周报.psd"

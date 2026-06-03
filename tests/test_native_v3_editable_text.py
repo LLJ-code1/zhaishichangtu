@@ -20,7 +20,7 @@ class NativeV3EditableTextTests(unittest.TestCase):
         )
 
     def test_v3_uses_native_text_blocks_not_rich_text_images(self) -> None:
-        path = ROOT / "weeks/2026-05-25_2026-05-29/work/native_v3/content.json"
+        path = ROOT / "weeks/2026-06-01_2026-06-05/work/native_v3/content.json"
         data = json.loads(path.read_text(encoding="utf-8"))
         self.assertIn("/outputs/native_v3/", data["output_png"])
         self.assertNotIn("rich_text_assets", data)
@@ -28,7 +28,7 @@ class NativeV3EditableTextTests(unittest.TestCase):
         self.assertIn("top_intro", data["native_text_blocks"])
 
     def test_text_blocks_are_single_paragraph_layers_with_style_ranges(self) -> None:
-        path = ROOT / "weeks/2026-05-25_2026-05-29/work/native_v3/content.json"
+        path = ROOT / "weeks/2026-06-01_2026-06-05/work/native_v3/content.json"
         data = json.loads(path.read_text(encoding="utf-8"))
         top_intro = data["native_text_blocks"]["top_intro"]
         colors = {tuple(style["color"]) for style in top_intro["style_ranges"]}
@@ -41,14 +41,14 @@ class NativeV3EditableTextTests(unittest.TestCase):
         self.assertGreater(len(top_intro["style_ranges"]), 1)
 
     def test_key_blocks_have_no_overflow_flag(self) -> None:
-        path = ROOT / "weeks/2026-05-25_2026-05-29/work/native_v3/content.json"
+        path = ROOT / "weeks/2026-06-01_2026-06-05/work/native_v3/content.json"
         data = json.loads(path.read_text(encoding="utf-8"))
         for key in ("top_intro", "funding", "risk_preference", "outlook", "strategy"):
             with self.subTest(key=key):
                 self.assertFalse(data["native_text_blocks"][key]["overflow"])
 
     def test_strategy_preserves_numbering_and_plus_sign(self) -> None:
-        path = ROOT / "weeks/2026-05-25_2026-05-29/work/native_v3/content.json"
+        path = ROOT / "weeks/2026-06-01_2026-06-05/work/native_v3/content.json"
         data = json.loads(path.read_text(encoding="utf-8"))
         text = data["native_text_blocks"]["strategy"]["text"]
         self.assertIn("1.", text)

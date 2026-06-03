@@ -4,7 +4,7 @@ import json
 import re
 import zipfile
 import xml.etree.ElementTree as ET
-from datetime import datetime, timedelta
+from datetime import date, datetime, timedelta
 from pathlib import Path
 
 from docx import Document
@@ -132,8 +132,48 @@ def excel_date(n: str) -> datetime:
     return datetime(1899, 12, 30) + timedelta(days=float(n))
 
 
+def source_date() -> date:
+    paragraphs, _ = get_paragraphs()
+    for text in paragraphs:
+        match = re.search(r"截至(\d{4})年(\d{1,2})月(\d{1,2})日", text)
+        if match:
+            year, month, day = (int(part) for part in match.groups())
+            return date(year, month, day)
+    raise ValueError("Missing data source date")
+
+
+def chart_series_names(chart_name: str) -> list[str]:
+    ns = {"c": "http://schemas.openxmlformats.org/drawingml/2006/chart"}
+    with zipfile.ZipFile(DOCX) as z:
+        root = ET.fromstring(z.read(f"word/charts/{chart_name}"))
+    names: list[str] = []
+    for ser in root.findall(".//c:ser", ns):
+        tx = ser.find(".//c:tx//c:v", ns)
+        if tx is not None and tx.text:
+            names.append(tx.text)
+    return names
+
+
+def chart_name_for_series(required_markers: tuple[str, ...]) -> str:
+    with zipfile.ZipFile(DOCX) as z:
+        names = sorted(
+            (
+                Path(name).name
+                for name in z.namelist()
+                if name.startswith("word/charts/chart") and name.endswith(".xml")
+            ),
+            key=lambda name: int(re.search(r"chart(\d+)\.xml", name).group(1)),
+        )
+    for chart_name in names:
+        series_names = chart_series_names(chart_name)
+        if all(any(marker in series for series in series_names) for marker in required_markers):
+            return chart_name
+    raise ValueError(f"Missing chart for series markers: {required_markers}")
+
+
 def parse_chart(chart_name: str):
     ns = {"c": "http://schemas.openxmlformats.org/drawingml/2006/chart"}
+    max_date = source_date()
     with zipfile.ZipFile(DOCX) as z:
         root = ET.fromstring(z.read(f"word/charts/{chart_name}"))
     series = []
@@ -143,7 +183,7 @@ def parse_chart(chart_name: str):
         cats = [pt.find("c:v", ns).text for pt in ser.findall(".//c:cat//c:pt", ns)]
         vals = [float(pt.find("c:v", ns).text) for pt in ser.findall(".//c:val//c:pt", ns)]
         pairs = [(excel_date(c), v) for c, v in zip(cats, vals)]
-        pairs = [(d, v) for d, v in pairs if d.date() <= datetime(2026, 5, 21).date()]
+        pairs = [(d, v) for d, v in pairs if d.date() <= max_date]
         pairs.sort(key=lambda x: x[0])
         series.append((name, pairs))
     return series
@@ -438,8 +478,8 @@ def main():
 
     paragraphs, doc = get_paragraphs()
     table_rows = parse_table(doc)
-    yield_series = parse_chart("chart1.xml")
-    fund_series = parse_chart("chart2.xml")
+    yield_series = parse_chart(chart_name_for_series(("中债国债到期收益率:1年",)))
+    fund_series = parse_chart(chart_name_for_series(("回购加权利率:1天", "回购加权利率:7天")))
 
     save_hero(ASSET_DIR / "hero.png")
     save_table(ASSET_DIR / "yield_table.png", table_rows)
