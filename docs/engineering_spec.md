@@ -50,8 +50,8 @@ assets/ 目录（PNG 资产）
 ```json
 {
   "meta": {
-    "date_range": "2026-05-15 至 2026-05-21",
-    "display_date": "2026-5-21",
+    "date_range": "2026-05-22 至 2026-05-28",
+    "display_date": "2026-5-28",
     "variant": "原版"
   },
   "sections": [

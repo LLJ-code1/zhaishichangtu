@@ -7,11 +7,13 @@
   - `inputs/word/variants/债市周观察原版.docx`
   - `inputs/word/variants/债市周观察（固收+）.docx`
   - `inputs/word/variants/债市周观察（债市）.docx`
-- PSD 模板：`inputs/psd/债市周报.psd`
+- PSD 模板：本地 `inputs/psd/债市周报.psd`（大文件不提交 GitHub）
 
 ## 输出
 
 当前主线仍为 `native_v3`，即保留原 PSD 组件并替换为可编辑 Photoshop 富文本层。
+
+最终 PSD/PNG 文件体积较大，保留在本地 `outputs/native_v3/`，不提交 GitHub。当前 GitHub 目录主要保留制作口径、脚本和输入说明。
 
 ```text
 outputs/native_v3/

@@ -12,8 +12,9 @@ psd_layers.tsv
 work/
 长图/基础长图v0/
 weeks/*/work/
-weeks/*/outputs/basic_v0/
+weeks/*/outputs/
 weeks/*/outputs/rich_text_test/
 weeks/*/outputs/native_v3/
 !weeks/*/outputs/native_v3/.gitkeep
-weeks/*/inputs/psd/*.psd
+weeks/*/inputs/psd/
+债市周观察/
